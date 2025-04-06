@@ -1,12 +1,12 @@
-# OptiRouteSim
+# OptimalRoute_Simulation
 
-🚀 **OptiRouteSim**
+🚀 **OptimalRoute_Simulation**
 *Optimizing Your Journey, Stage by Stage.*
 
 ---
 
 ## 📌 Overview
-**OptiRouteSim** is a dynamic programming–based simulation tool designed to compute the most cost-effective route between cities, considering both petrol and hotel costs. The system visualizes possible paths through multiple stages and identifies optimal and alternative solutions with graphical support.
+**OptimalRoute_Simulation** is a dynamic programming–based simulation tool designed to compute the most cost-effective route between cities, considering both petrol and hotel costs. The system visualizes possible paths through multiple stages and identifies optimal and alternative solutions with graphical support.
 
 This project is suitable for:
 - 🎓 Academic learning / graduation projects
