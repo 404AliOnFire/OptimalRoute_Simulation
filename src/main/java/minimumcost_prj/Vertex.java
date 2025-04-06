@@ -3,15 +3,16 @@ package minimumcost_prj;
 public class Vertex {
     public String name;
     public int stage = -1;
-    public int[] adjacentsIndex;
+    public Edge[] adjacent;
     public int adjCount = 0;
 
     public Vertex(String name, int maxAdj) {
         this.name = name;
-        this.adjacentsIndex = new int[maxAdj];
+        this.adjacent = new Edge[maxAdj];
     }
 
-    public void addAdjacent(int index) {
-        this.adjacentsIndex[adjCount++] = index;
+    public void addAdjacent(Vertex dest, int petrolCost, int hotelCost) {
+        Edge edge = new Edge(dest, petrolCost, hotelCost);
+        this.adjacent[adjCount++] = edge;
     }
 }
