@@ -3,7 +3,7 @@ package minimumcost_prj;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class Driver {
     @FXML
     private Label welcomeText;
 
