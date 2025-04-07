@@ -3,6 +3,7 @@ package minimumcost_prj;
 public class Vertex {
     public String name;
     public int stage = -1;
+    public int indexVertex = -1;
     public Edge[] adjacent;
     public int adjCount = 0;
 
