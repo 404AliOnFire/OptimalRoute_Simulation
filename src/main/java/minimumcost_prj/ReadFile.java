@@ -17,6 +17,8 @@ public class ReadFile {
      * - Defined destinations
      * - Correct vertex order
      */
+    public static int[] stageIndex;
+
     public static Vertex[] loadGraph(String filePath) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -161,8 +163,9 @@ public class ReadFile {
                     }
                 }
             }
-
+            vertices[cityNum - 1].stage = stage + 1;
             System.out.println("✅ File successfully loaded and graph is ready!");
+            setStageIndex(vertices);
             return vertices;
         }
     }
@@ -177,6 +180,24 @@ public class ReadFile {
             }
             System.out.println();
         }
+    }
+    public static void setStageIndex(Vertex[] graph){
+        int length = graph.length;
+        stageIndex = new int[graph[length - 1].stage + 1];
+
+        for (int i = 1; i < length; i++) {
+            Vertex prev = graph[i - 1];
+            Vertex v = graph[i];
+
+
+            if (prev != null && prev.stage != v.stage) {
+                stageIndex[v.stage] = stageIndex[prev.stage];
+            }
+
+            stageIndex[v.stage]++;
+            System.out.println(v.name + " -> " + stageIndex[v.stage]);
+        }
+
     }
 
     public static void main(String[] args) {
