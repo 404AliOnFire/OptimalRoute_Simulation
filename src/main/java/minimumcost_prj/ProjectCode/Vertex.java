@@ -1,4 +1,4 @@
-package minimumcost_prj;
+package minimumcost_prj.ProjectCode;
 
 public class Vertex {
     public String name;

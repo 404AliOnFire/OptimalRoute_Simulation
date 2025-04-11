@@ -1,4 +1,4 @@
-package minimumcost_prj;
+package minimumcost_prj.ProjectCode;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

@@ -1,4 +1,8 @@
-package minimumcost_prj;
+package minimumcost_prj.File;
+
+import minimumcost_prj.ProjectCode.Edge;
+import minimumcost_prj.ProjectCode.Queue;
+import minimumcost_prj.ProjectCode.Vertex;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,6 +21,8 @@ public class ReadFile {
      * - Defined destinations
      * - Correct vertex order
      */
+
+    static int cityNum;
     public static int[] stageIndex;
 
     public static Vertex[] loadGraph(String filePath) throws IOException {
@@ -28,7 +34,7 @@ public class ReadFile {
             if (line == null) {
                 throw new IOException("❌ Input file is empty");
             }
-            int cityNum;
+
             try {
                 cityNum = Integer.parseInt(line.trim());
             } catch (NumberFormatException e) {
@@ -112,10 +118,6 @@ public class ReadFile {
                     String adjacents = parts[1].trim();
                     // Split by '], [' to handle multiple adjacents
                     String[] adjacentsArray = adjacents.split("\\],\\s*\\[");
-                    if (i - adjCount == 1 && i >= 1) {
-                        stage++;
-                        adjCount = adjacentsArray.length;
-                    } else if(i == 0) adjCount = adjacentsArray.length;
                     for (int j = 0; j < adjacentsArray.length; j++) {
                         String adjacent = adjacentsArray[j].trim();
                         // Handle missing brackets by checking and cleaning
@@ -156,14 +158,13 @@ public class ReadFile {
                             }
                             fromV.addAdjacent(vertices[destIdx], petrol, hotel);
                             fromV.stage = stage;
-                            if(fromV.indexVertex == 0) fromV.stage = 0;
+                            if (fromV.indexVertex == 0) fromV.stage = 0;
                         } else {
                             throw new IOException("❌ Invalid adjacency format at " + fromName + " → " + adjacent);
                         }
                     }
                 }
             }
-            vertices[cityNum - 1].stage = stage + 1;
             System.out.println("✅ File successfully loaded and graph is ready!");
             setStageIndex(vertices);
             return vertices;
@@ -181,11 +182,37 @@ public class ReadFile {
             System.out.println();
         }
     }
-    public static void setStageIndex(Vertex[] graph){
-        int length = graph.length;
-        stageIndex = new int[graph[length - 1].stage + 1];
 
-        for (int i = 1; i < length; i++) {
+    public static void assignStages(Vertex[] vertices) {
+        Queue<Vertex> queue = new Queue<>(cityNum);
+        boolean[] visited = new boolean[vertices.length];
+
+        vertices[0].stage = 0;
+        queue.enqueue(vertices[0]);
+        visited[0] = true;
+
+        while (!queue.isEmpty()) {
+            Vertex current = queue.dequeue();
+            int currentStage = current.stage;
+
+            for (Edge edge : current.adjacent) {
+                Vertex dest = edge.destination;
+                if (!visited[dest.indexVertex]) {
+                    dest.stage = currentStage + 1;
+                    queue.enqueue(dest);
+                    visited[dest.indexVertex] = true;
+                } else {
+                    dest.stage = Math.max(dest.stage, currentStage + 1);
+                }
+            }
+        }
+    }
+
+    public static void setStageIndex(Vertex[] graph) {
+        assignStages(graph);
+        stageIndex = new int[graph[cityNum - 1].stage + 1];
+
+        for (int i = 1; i < cityNum; i++) {
             Vertex prev = graph[i - 1];
             Vertex v = graph[i];
 
@@ -195,7 +222,7 @@ public class ReadFile {
             }
 
             stageIndex[v.stage]++;
-            System.out.println(v.name + " -> " + stageIndex[v.stage]);
+            System.out.println(v.name + " -> " + stageIndex[v.stage] + "-> Stage :" + v.stage);
         }
 
     }

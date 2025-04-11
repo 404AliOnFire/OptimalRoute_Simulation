@@ -5,4 +5,6 @@ module projectalgo.minimumcost_prj {
 
     opens minimumcost_prj to javafx.fxml;
     exports minimumcost_prj;
+    exports minimumcost_prj.ProjectCode;
+    opens minimumcost_prj.ProjectCode to javafx.fxml;
 }
