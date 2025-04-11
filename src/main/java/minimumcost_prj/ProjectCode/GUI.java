@@ -12,8 +12,8 @@ import java.util.ArrayList;
 public class GUI extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("hello-view.fxml"));
-        Vertex[] v = ReadFile.loadGraph("C:\\Users\\ALYAMEN.PS\\IdeaProjects\\MinimumCost_Prj\\src\\main\\java\\minimumcost_prj\\input.txt");
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/StartUI.fxml"));
+        Vertex[] v = ReadFile.loadGraph("C:\\Users\\ALYAMEN.PS\\IdeaProjects\\MinimumCost_Prj\\src\\main\\java\\minimumcost_prj\\File\\input.txt");
         initializeDP(v);
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("Hello!");

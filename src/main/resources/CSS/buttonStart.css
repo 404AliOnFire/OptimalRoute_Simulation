@@ -1,3 +1,4 @@
+
 .cartoon-button {
     -fx-font-family: 'Backso';
     -fx-font-size: 20px;
@@ -9,9 +10,20 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0, 2, 2);
     -fx-transition: all 0.3s ease-in-out;
 }
-
+.cartoon-button1 {
+    -fx-font-family: 'Backso';
+    -fx-font-size: 15px;
+    -fx-background-color: red;
+    -fx-text-fill: black;
+    -fx-background-radius: 30;
+    -fx-padding: 10 25;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0, 2, 2);
+    -fx-transition: all 0.3s ease-in-out;
+}
 .cartoon-button:hover {
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
     -fx-background-color: #bde2f2;
 }
+

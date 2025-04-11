@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="608.0" prefWidth="812.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="minimumcost_prj.ProjectCode.Driver">
+   <children>
+      <ImageView fitHeight="476.0" fitWidth="895.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <HBox alignment="TOP_CENTER" layoutX="66.0" layoutY="555.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="808.0" spacing="350.0" visible="false">
+         <children>
+            <Button mnemonicParsing="false" onMouseClicked="#fileAction" prefHeight="48.0" prefWidth="190.0" styleClass="cartoon-button" stylesheets="@../CSS/buttonStart.css" text="File" />
+            <Button mnemonicParsing="false" onMouseClicked="#keyboardAction" prefHeight="48.0" prefWidth="190.0" styleClass="cartoon-button" stylesheets="@../CSS/buttonStart.css" text="keyboard">
+               <font>
+                  <Font name="Backso" size="12.10084056854248" />
+               </font></Button>
+         </children>
+      </HBox>
+      <Text layoutX="301.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Optimal Route">
+         <font>
+            <Font name="Backso" size="35.0" />
+         </font>
+      </Text>
+      <AnchorPane layoutX="49.0" layoutY="91.0" prefHeight="550.0" prefWidth="808.0" style="-fx-background-color: black;">
+         <children>
+            <TextArea fx:id="textAreaKeyboard" layoutX="449.0" layoutY="14.0" prefHeight="470.0" prefWidth="349.0" />
+            <Text fill="RED" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instruction: Please paste your graph data below Format should be like the file input:" textAlignment="CENTER" wrappingWidth="446.32666015625">
+               <font>
+                  <Font name="Backso" size="13.0" />
+               </font>
+            </Text>
+            <Line endX="334.0" endY="1.52587890625E-5" layoutX="115.0" layoutY="79.0" startX="-115.00000762939453" startY="1.52587890625E-5" stroke="WHITE" />
+            <TextFlow layoutX="45.0" layoutY="98.0" prefHeight="228.0" prefWidth="219.0">
+               <children>
+                  <TextArea editable="false" prefHeight="223.0" prefWidth="217.0" style="-fx-background-color: black;" text="5  &#10;Start, End &#10;Start, [B, 3, 4], [C, 2, 1]  &#10;B, [D, 4, 2]  &#10;C, [D, 1, 2]  &#10;D, [End, 2, 3]&#10;">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </TextArea>
+               </children>
+            </TextFlow>
+            <VBox layoutX="14.0" layoutY="335.0" prefHeight="200.0" prefWidth="368.0">
+               <children>
+                  <Text fill="#33ff00" strokeType="OUTSIDE" strokeWidth="0.0" text="✅ First line: number of cities">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#33ff00" strokeType="OUTSIDE" strokeWidth="0.0" text="✅ Second line: Start, End">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#33ff00" strokeType="OUTSIDE" strokeWidth="0.0" text="✅ Remaining lines: adjacency list">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#33ff00" strokeType="OUTSIDE" strokeWidth="0.0" text="❗ Make sure names are unique and connections" wrappingWidth="369.61175537109375">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#33ff00" strokeType="OUTSIDE" strokeWidth="0.0" text="Format: City, [Destination, petrolCost, hotelCost], ...">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </VBox>
+            <HBox layoutX="461.0" layoutY="492.0" prefHeight="45.0" prefWidth="324.0" spacing="100.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#deleteKeyboard" prefHeight="52.0" prefWidth="120.0" styleClass="cartoon-button1" stylesheets="@../CSS/buttonStart.css" text="Delete" textFill="#ef0909" />
+                  <Button mnemonicParsing="false" onAction="#loadKeyboard" prefHeight="48.0" prefWidth="119.0" styleClass="cartoon-button" stylesheets="@../CSS/buttonStart.css" text="Load" textFill="RED" />
+               </children>
+            </HBox>
+         </children></AnchorPane>
+   </children>
+</AnchorPane>
