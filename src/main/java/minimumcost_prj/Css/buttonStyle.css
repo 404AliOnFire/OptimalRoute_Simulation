@@ -1,8 +1,8 @@
 .cartoon-button {
-    -fx-font-family: 'Super Cottage';
-    -fx-font-size: 26px;
-    -fx-background-color: #add8e6; /* light blue */
-    -fx-text-fill: #2c2c2c;
+    -fx-font-family: 'Backso';
+    -fx-font-size: 20px;
+    -fx-background-color: #add8e6;
+    -fx-text-fill: black;
     -fx-background-radius: 30;
     -fx-padding: 10 25;
     -fx-cursor: hand;
@@ -13,5 +13,5 @@
 .cartoon-button:hover {
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
-    -fx-background-color: #bde2f2; /* slightly lighter */
+    -fx-background-color: #bde2f2;
 }
