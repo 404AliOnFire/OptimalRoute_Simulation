@@ -1,0 +1,30 @@
+/* إضافة حدود واضحة للخلايا */
+.table-view .table-cell {
+    -fx-border-color: black; /* لون الحدود أسود */
+    -fx-border-width: 1;      /* سمك الحدود 1 بكسل */
+    -fx-padding: 5;           /* مسافة داخلية للخلايا */
+    -fx-text-fill: black;     /* لون النص في الخلايا أسود */
+}
+
+/* محاذاة النص في المنتصف */
+.table-view .table-cell,
+.table-view .column-header .label {
+    -fx-alignment: center;    /* جعل النص في المنتصف */
+}
+
+/* تنسيق الخط */
+.table-view .table-cell,
+.table-view .column-header .label {
+    -fx-font-family: 'Arial'; /* نوع الخط */
+    -fx-font-size: 20px;      /* حجم الخط */
+}
+
+/* لون النص والخلفية في رأس الأعمدة */
+.column-header {
+    -fx-background-color: orange; /* لون الخلفية برتقالي */
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: red; /* لون النص أحمر */
+}
+
