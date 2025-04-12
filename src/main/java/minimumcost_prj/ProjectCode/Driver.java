@@ -5,8 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import minimumcost_prj.File.ReadFile;
 
@@ -20,6 +22,15 @@ public class Driver {
     private Label welcomeText;
 
     public static Vertex [] vertices;
+
+    @FXML
+    private TextArea textAreaKeyboard;
+
+    @FXML
+    private AnchorPane startPane;
+
+    @FXML
+    private AnchorPane keyboardPane;
 
     @FXML
     protected void onHelloButtonClick() {
@@ -67,35 +78,39 @@ public class Driver {
 
 
     public void keyboardAction(MouseEvent mouseEvent) {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Keyboard Input");
-        dialog.setHeaderText("Enter the graph data manually");
-        dialog.setContentText("Paste your graph data:");
-
-        Optional<String> result = dialog.showAndWait();
-
-        result.ifPresent(input -> {
-            try {
-                File tempFile = File.createTempFile("graphData", ".txt");
-                FileWriter writer = new FileWriter(tempFile);
-                writer.write(input);
-                writer.close();
-
-                Vertex[] vertices = ReadFile.loadGraph(tempFile.getAbsolutePath());
-                this.vertices = vertices;
-
-                System.out.println("✅ Graph loaded from keyboard input (via temp file): " + tempFile.getAbsolutePath());
-                tempFile.deleteOnExit();
-            } catch (IOException e) {
-                showAlert("Input Error", "⚠️ An error occurred:\n" + e.getMessage());
-            }
-        });
+        startPane.setVisible(false);
+        keyboardPane.setVisible(true);
     }
 
     public void loadKeyboard(ActionEvent actionEvent) {
-        
+        // Get the text from the text area
+        String input = textAreaKeyboard.getText();
+        if (input == null || input.trim().isEmpty()) {
+            showAlert("Input Error", "No graph data was entered. Please paste your graph data.");
+            return;
+        }
+        try {
+            File tempFile = File.createTempFile("graphData", ".txt");
+            FileWriter writer = new FileWriter(tempFile);
+            writer.write(input);
+            writer.close();
+
+            Vertex[] loadedVertices = ReadFile.loadGraph(tempFile.getAbsolutePath());
+            this.vertices = loadedVertices;
+
+            System.out.println("✅ Graph successfully loaded from keyboard input (via temp file): " + tempFile.getAbsolutePath());
+
+            tempFile.deleteOnExit();
+        } catch (IOException e) {
+            showAlert("Input Error",   e.getMessage());
+        }
     }
 
     public void deleteKeyboard(ActionEvent actionEvent) {
+    }
+
+    public void backKeyboard(ActionEvent actionEvent) {
+        startPane.setVisible(true);
+        keyboardPane.setVisible(false);
     }
 }

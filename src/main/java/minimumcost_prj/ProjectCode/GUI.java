@@ -15,7 +15,7 @@ public class GUI extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/StartUI.fxml"));
         Vertex[] v = ReadFile.loadGraph("C:\\Users\\ALYAMEN.PS\\IdeaProjects\\MinimumCost_Prj\\src\\main\\java\\minimumcost_prj\\File\\input.txt");
         initializeDP(v);
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        Scene scene = new Scene(fxmlLoader.load(), 944, 642);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
