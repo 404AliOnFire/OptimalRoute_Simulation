@@ -177,7 +177,30 @@
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="586.0" prefWidth="233.0" style="-fx-background-color: white;">
                                              <children>
-                                                <VBox fx:id="vboxHead1" prefHeight="586.4873761573799" prefWidth="233.14284966916478" style="-fx-background-color: gray;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <VBox fx:id="vboxHead1" prefHeight="586.4873761573799" prefWidth="233.14284966916478" style="-fx-background-color: gray;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <children>
+                                                      <HBox alignment="CENTER" prefHeight="47.0" prefWidth="233.0" spacing="100.0">
+                                                         <children>
+                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="From">
+                                                               <font>
+                                                                  <Font name="Courier New Bold" size="21.0" />
+                                                               </font>
+                                                            </Text>
+                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="To">
+                                                               <font>
+                                                                  <Font name="Courier New Bold" size="21.0" />
+                                                               </font>
+                                                            </Text>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox alignment="CENTER" prefHeight="46.0" prefWidth="231.0" spacing="60.0">
+                                                         <children>
+                                                            <ComboBox fx:id="startComboBox" onAction="#handleStartSelection" prefHeight="35.0" prefWidth="72.0" />
+                                                            <ComboBox fx:id="endComboBox" prefHeight="35.0" prefWidth="71.0" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
                                              </children>
                                           </AnchorPane>
                                        </content>

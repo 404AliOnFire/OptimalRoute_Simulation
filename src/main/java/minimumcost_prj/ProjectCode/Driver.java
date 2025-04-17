@@ -19,6 +19,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import minimumcost_prj.File.ReadFile;
 
 import java.io.*;
@@ -28,7 +29,7 @@ import java.util.Optional;
 public class Driver {
     public static Vertex[] vertexArray;
 
-    public static int [][] arrayForFX;
+    public static int[][] arrayForFX;
     @FXML
     private Label welcomeText;
 
@@ -64,6 +65,12 @@ public class Driver {
 
     @FXML
     private HBox hboxHead;
+
+    @FXML
+    private ComboBox<Vertex> startComboBox;
+
+    @FXML
+    private ComboBox<Vertex> endComboBox;
 
     @FXML
     public TableView<ObservableList<String>> dpTable;
@@ -268,7 +275,7 @@ public class Driver {
         controller.startVertexText1.setText(ReadFile.startVertex);
         controller.endVertexText1.setText(ReadFile.endVertex);
 
-        for(Vertex v : vertexArray){
+        for (Vertex v : vertexArray) {
             HBox hBox = new HBox(100);
             Text text1 = new Text(v.name);
             Text text2 = new Text(v.stage + "");
@@ -282,6 +289,38 @@ public class Driver {
 
         dpInitTableFx(cityNum);
         dpAfterTableFX(cityNum);
+        fillStartAndEnd();
+    }
+
+    public void fillStartAndEnd() {
+
+        controller.startComboBox.getItems().addAll(vertexArray);
+        controller.startComboBox.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(Vertex vertex) {
+                return vertex == null ? "" : vertex.name;
+            }
+
+            @Override
+            public Vertex fromString(String string) {
+                return null;
+            }
+        });
+        controller.endComboBox.setConverter(controller.startComboBox.getConverter());
+    }
+
+    @FXML
+    private void handleStartSelection() {
+        Vertex selectedStart = controller.startComboBox.getValue();
+        if (selectedStart != null) {
+            int selectedStage = selectedStart.stage;
+            controller.endComboBox.getItems().clear();
+            for (Vertex vertex : vertexArray) {
+                if (vertex.stage > selectedStage) {
+                    controller.endComboBox.getItems().add(vertex);
+                }
+            }
+        }
     }
 
     private void dpAfterTableFX(int cityNum) {

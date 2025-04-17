@@ -16,4 +16,9 @@ public class Vertex {
         Edge edge = new Edge(dest, petrolCost, hotelCost);
         this.adjacent[adjCount++] = edge;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
