@@ -12,6 +12,8 @@ import java.util.Set;
 
 public class ReadFile {
     /**
+     * GitHub : Ali Hassoneh
+     * ____________________________________________________________
      * Reads the graph from a file and initializes a Vertex[] array.
      * Validates:
      * - Correct city count
@@ -20,10 +22,13 @@ public class ReadFile {
      * - Proper adjacency format (handles missing commas/brackets)
      * - Defined destinations
      * - Correct vertex order
+     * ______________________________________________________________
      */
 
     static int cityNum;
     public static int[] stageIndex;
+    public static String startVertex;
+    public static String endVertex;
 
     public static Vertex[] loadGraph(String filePath) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -57,6 +62,9 @@ public class ReadFile {
             }
             String startName = se[0].trim();
             String endName = se[1].trim();
+
+            startVertex = startName;
+            endVertex = endName;
 
             // 3) Read exactly cityNum adjacency lines
             int count = 0;

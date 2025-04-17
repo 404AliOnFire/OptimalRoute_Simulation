@@ -87,20 +87,6 @@
                                                             </Text>
                                                          </children>
                                                       </HBox>
-                                                      <HBox alignment="CENTER" prefHeight="48.0" prefWidth="224.0" spacing="100.0">
-                                                         <children>
-                                                            <Text stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="A">
-                                                               <font>
-                                                                  <Font name="Courier New Bold" size="21.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1">
-                                                               <font>
-                                                                  <Font name="Courier New Bold" size="21.0" />
-                                                               </font>
-                                                            </Text>
-                                                         </children>
-                                                      </HBox>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -113,7 +99,7 @@
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                            <children>
-                              <TableView fx:id="dpTable" layoutX="14.0" prefHeight="697.008381017849" prefWidth="1047.1260168532037" styleClass="column-header" stylesheets="@../CSS/table.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="dpTable" layoutX="14.0" prefHeight="697.008381017849" prefWidth="1047.1260168532037" stylesheets="@../CSS/table.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                   <TableColumn prefWidth="75.0" text="C1" />
                                   <TableColumn prefWidth="75.0" text="C2" />
@@ -128,7 +114,91 @@
     </Tab>
     <Tab text="DP Table">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <SplitPane dividerPositions="0.18424969254280993" prefHeight="698.6218263442793" prefWidth="1289.1428158177346" styleClass="column-header" stylesheets="@../CSS/table.css">
+                     <items>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: black;">
+                           <children>
+                              <VBox prefHeight="697.008381017849" prefWidth="177.47898590732268" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="48.0" prefWidth="235.0">
+                                       <children>
+                                          <Text fill="#42b6ff" strokeType="OUTSIDE" strokeWidth="0.0" text="Num of Vertex :">
+                                             <font>
+                                                <Font name="Courier New Bold" size="21.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fx:id="numVertexText1" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                             <font>
+                                                <Font name="Courier New Bold" size="21.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="48.0" prefWidth="235.0">
+                                       <children>
+                                          <Text fill="#42b6ff" strokeType="OUTSIDE" strokeWidth="0.0" text="From (Start):">
+                                             <font>
+                                                <Font name="Courier New Bold" size="21.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fx:id="startVertexText1" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="A">
+                                             <font>
+                                                <Font name="Courier New Bold" size="21.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="48.0" prefWidth="235.0">
+                                       <children>
+                                          <Text fill="#42b6ff" strokeType="OUTSIDE" strokeWidth="0.0" text="To (End) :">
+                                             <font>
+                                                <Font name="Courier New Bold" size="21.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fx:id="endVertexText1" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="A">
+                                             <font>
+                                                <Font name="Courier New Bold" size="21.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="48.0" prefWidth="235.0">
+                                       <children>
+                                          <Text fill="#ff4242" strokeType="OUTSIDE" strokeWidth="0.0" text="-1 means both equality stage ">
+                                             <font>
+                                                <Font name="Courier New Bold" size="13.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                    <ScrollPane prefHeight="552.0" prefWidth="235.0">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="586.0" prefWidth="233.0" style="-fx-background-color: white;">
+                                             <children>
+                                                <VBox fx:id="vboxHead1" prefHeight="586.4873761573799" prefWidth="233.14284966916478" style="-fx-background-color: gray;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </ScrollPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <TableView fx:id="dpTable1" layoutX="14.0" prefHeight="697.008381017849" prefWidth="1047.1260168532037" stylesheets="@../CSS/table.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <columns>
+                                    <TableColumn prefWidth="75.0" text="C1" />
+                                    <TableColumn prefWidth="75.0" text="C2" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+               </children></AnchorPane>
       </content>
     </Tab>
   </tabs>

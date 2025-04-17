@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -14,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -25,9 +27,10 @@ import java.util.Optional;
 
 public class Driver {
     public static Vertex[] vertexArray;
+
+    public static int [][] arrayForFX;
     @FXML
     private Label welcomeText;
-
 
     @FXML
     private TextArea textAreaKeyboard;
@@ -48,19 +51,30 @@ public class Driver {
     private Text numVertexText;
 
     @FXML
+    private Text endVertexText1;
+
+    @FXML
+    private Text startVertexText1;
+
+    @FXML
+    private Text numVertexText1;
+
+    @FXML
     private VBox vboxHead;
 
     @FXML
     private HBox hboxHead;
 
+    @FXML
+    public TableView<ObservableList<String>> dpTable;
+
+    @FXML
+    public TableView<ObservableList<String>> dpTable1;
 
     static Driver controller;
-
     static int[][] dp;
     static ArrayList<String>[][] pathsArray;
     static ArrayList<Integer>[][] costsArray;
-    @FXML
-    public TableView<ObservableList<String>> dpTable;
 
 
     @FXML
@@ -134,7 +148,6 @@ public class Driver {
                 }
             }
         }
-
         for (int i = 0; i < cityNum; i++) {
             int lengthEdges = vertexArray[i].adjacent.length;
             for (int j = 0; j < lengthEdges; j++) {
@@ -146,6 +159,12 @@ public class Driver {
                 dp[i][k] = petrol + hotel;
             }
         }
+
+        arrayForFX = new int[cityNum][cityNum];
+        for (int i = 0; i < cityNum; i++) {
+            arrayForFX[i] = dp[i].clone();
+        }
+
         System.out.println("🔍 DP Matrix (Petrol + Hotel Costs):");
         for (int i = 0; i < cityNum; i++) {
             for (int j = 0; j < cityNum; j++) {
@@ -241,8 +260,78 @@ public class Driver {
         showNextStage();
 
         int cityNum = vertexArray.length;
+        controller.numVertexText.setText(cityNum + "");
+        controller.startVertexText.setText(ReadFile.startVertex);
+        controller.endVertexText.setText(ReadFile.endVertex);
+
+        controller.numVertexText1.setText(cityNum + "");
+        controller.startVertexText1.setText(ReadFile.startVertex);
+        controller.endVertexText1.setText(ReadFile.endVertex);
+
+        for(Vertex v : vertexArray){
+            HBox hBox = new HBox(100);
+            Text text1 = new Text(v.name);
+            Text text2 = new Text(v.stage + "");
+            text1.setFont(new Font("Courier new", 21));
+            text2.setFont(new Font("Courier new", 21));
+            hBox.getChildren().addAll(text1, text2);
+            hBox.setAlignment(Pos.CENTER);
+            controller.vboxHead.getChildren().addAll(hBox);
+        }
 
 
+        dpInitTableFx(cityNum);
+        dpAfterTableFX(cityNum);
+    }
+
+    private void dpAfterTableFX(int cityNum) {
+        controller.dpTable1.getColumns().clear();
+
+        TableColumn<ObservableList<String>, String> firstCol = new TableColumn<>("City");
+        firstCol.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().get(0)));
+        firstCol.setCellFactory(column -> new TableCell<ObservableList<String>, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item);
+                    setStyle("-fx-background-color: orange;");
+                    setStyle("-fx-text-fill: red");
+                }
+            }
+        });
+        controller.dpTable1.getColumns().add(firstCol);
+
+
+        for (int i = 0; i < cityNum; i++) {
+            final int colIndex = i + 1;
+            TableColumn<ObservableList<String>, String> col = new TableColumn<>(vertexArray[i].name);
+            col.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().get(colIndex)));
+            controller.dpTable1.getColumns().add(col);
+        }
+
+
+        ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
+        for (int row = 0; row < cityNum; row++) {
+            ObservableList<String> rowData = FXCollections.observableArrayList();
+            rowData.add(vertexArray[row].name);
+            for (int col = 0; col < cityNum; col++) {
+                int value = dp[row][col];
+                rowData.add(value == Integer.MAX_VALUE ? "∞" : String.valueOf(value));
+            }
+            data.add(rowData);
+        }
+
+        controller.dpTable1.setItems(data);
+
+
+        controller.dpTable1.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    }
+
+    private static void dpInitTableFx(int cityNum) {
         controller.dpTable.getColumns().clear();
 
         TableColumn<ObservableList<String>, String> firstCol = new TableColumn<>("City");
@@ -277,7 +366,7 @@ public class Driver {
             ObservableList<String> rowData = FXCollections.observableArrayList();
             rowData.add(vertexArray[row].name);
             for (int col = 0; col < cityNum; col++) {
-                int value = dp[row][col];
+                int value = arrayForFX[row][col];
                 rowData.add(value == Integer.MAX_VALUE ? "∞" : String.valueOf(value));
             }
             data.add(rowData);
