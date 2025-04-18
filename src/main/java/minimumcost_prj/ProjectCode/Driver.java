@@ -24,6 +24,8 @@ import minimumcost_prj.File.ReadFile;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Optional;
 
 public class Driver {
@@ -78,10 +80,14 @@ public class Driver {
     @FXML
     public TableView<ObservableList<String>> dpTable1;
 
+    @FXML
+    public VBox vboxPaths;
+
     static Driver controller;
     static int[][] dp;
-    static ArrayList<String>[][] pathsArray;
-    static ArrayList<Integer>[][] costsArray;
+    static String[][] pathsArray;
+    static String[][] costsArray;
+    static PathResult[][] pathResult;
 
 
     @FXML
@@ -122,7 +128,6 @@ public class Driver {
         }
     }
 
-    // Helper function for alert
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -134,15 +139,9 @@ public class Driver {
     public void initializeDP(Vertex[] vertexArray) {
         int cityNum = vertexArray.length;
         dp = new int[cityNum][cityNum];
-        pathsArray = new ArrayList[cityNum][cityNum];
-        costsArray = new ArrayList[cityNum][cityNum];
-
-        for (int i = 0; i < cityNum; i++) {
-            for (int j = 0; j < cityNum; j++) {
-                pathsArray[i][j] = new ArrayList<>();
-                costsArray[i][j] = new ArrayList<>();
-            }
-        }
+        pathsArray = new String[cityNum][cityNum];
+        costsArray = new String[cityNum][cityNum];
+        pathResult = new PathResult[cityNum][cityNum];
 
         for (int i = 0; i < cityNum; i++) {
             for (int j = 0; j < cityNum; j++) {
@@ -153,6 +152,10 @@ public class Driver {
                 } else {
                     dp[i][j] = Integer.MAX_VALUE;
                 }
+                // INITIALIZE THE 2 ARRAYS
+                //pathResult[i][j] = new PathResult[40];
+                pathsArray[i][j] = "";
+                costsArray[i][j] = "";
             }
         }
         for (int i = 0; i < cityNum; i++) {
@@ -172,13 +175,7 @@ public class Driver {
             arrayForFX[i] = dp[i].clone();
         }
 
-        System.out.println("🔍 DP Matrix (Petrol + Hotel Costs):");
-        for (int i = 0; i < cityNum; i++) {
-            for (int j = 0; j < cityNum; j++) {
-                System.out.print((dp[i][j] == Integer.MAX_VALUE ? "∞" : dp[i][j]) + "\t");
-            }
-            System.out.println();
-        }
+        // O(n² * E)
         for (int i = 0; i < cityNum; i++) {
             for (int j = i + 1; j < cityNum; j++) {
                 for (Edge edge : vertexArray[j].adjacent) {
@@ -186,38 +183,14 @@ public class Driver {
 
                     if (vertexArray[i].stage == vertexArray[j].stage || dp[i][j] == -1) continue;
                     if (dp[i][j] != Integer.MAX_VALUE && dp[j][k] != Integer.MAX_VALUE) {
-                        dp[i][k] = Math.min(dp[j][k] + dp[i][j], dp[i][k]);
-                        pathsArray[i][k].add(vertexArray[j].name + " ");
-                        costsArray[i][k].add(dp[j][k] + dp[i][j]);
+                        dp[i][k] = Math.min(dp[j][k] + dp[i][j], dp[i][k]); // relationship
+                        pathsArray[i][k] += (vertexArray[j].name + " ");
+                        costsArray[i][k] += (dp[j][k] + dp[i][j]);
                     }
                 }
             }
         }
-        System.out.println("🔍 DP Matrix (Petrol + Hotel Costs):");
-        for (int i = 0; i < cityNum; i++) {
-            for (int j = 0; j < cityNum; j++) {
-                System.out.print((dp[i][j] == Integer.MAX_VALUE ? "∞" : dp[i][j]) + "\t");
-            }
-            System.out.println();
-        }
-        System.out.println("\n📌 Paths Array:");
-        for (int i = 0; i < cityNum; i++) {
-            for (int j = 0; j < cityNum; j++) {
-                System.out.print("From " + vertexArray[i].name + " to " + vertexArray[j].name + ": ");
-                System.out.println(pathsArray[i][j]);
-            }
-        }
-
-        System.out.println("\n💰 Costs Array:");
-        for (int i = 0; i < cityNum; i++) {
-            for (int j = 0; j < cityNum; j++) {
-                System.out.print("From " + vertexArray[i].name + " to " + vertexArray[j].name + ": ");
-                System.out.println(costsArray[i][j]);
-            }
-        }
-
     }
-
 
     public void keyboardAction(MouseEvent mouseEvent) {
         startPane.setVisible(false);
@@ -263,6 +236,78 @@ public class Driver {
         dpStage.show();
     }
 
+    private void appendPath(int i, int j, int k) {
+        String basePath = vertexArray[i].name;
+
+        if(pathsArray[i][j] == null) {
+            String fullPath = basePath + "-> " + vertexArray[j];
+            return;
+        }
+        String[] partialPaths = pathsArray[i][k] != null ? pathsArray[i][k].split(", ") : new String[]{basePath};
+
+        for (String path : partialPaths) {
+            if (!path.isEmpty()) {
+                String fullPath = path + " -> " + vertexArray[j].name + " -> " + vertexArray[k].name;
+                if (pathsArray[i][k] == null || pathsArray[i][k].isEmpty()) {
+                    pathsArray[i][k] = fullPath;
+                } else {
+                    pathsArray[i][k] += ", " + fullPath;
+                }
+            }
+        }
+    }
+
+    public PathResult[] getPathsWithCosts(int startIndex, int endIndex) {
+        String s = pathsArray[startIndex][endIndex];
+        if (s == null || s.isEmpty()) {
+            return new PathResult[0];
+        }
+
+        String[] allPaths = s.split(", ");
+        PathResult[] results = new PathResult[allPaths.length];
+
+        for (int p = 0; p < allPaths.length; p++) {
+            String pathStr = allPaths[p];
+            String[] names = pathStr.split(" -> ");
+            int totalCost = 0;
+
+            // نجمع تكلفة كل خطوة في المسار
+            for (int i = 0; i < names.length - 1; i++) {
+                // نحصل على كائن الـ Vertex لكل اسم
+                Vertex from = null, to = null;
+                for (Vertex v : vertexArray) {
+                    if (v.name.equals(names[i]))     from = v;
+                    if (v.name.equals(names[i+1]))   to   = v;
+                }
+                if (from == null || to == null) {
+                    totalCost = Integer.MAX_VALUE;
+                    break;
+                }
+                int c = findEdgeCost(from, to);
+                if (c == Integer.MAX_VALUE) {
+                    totalCost = Integer.MAX_VALUE; // طريق غير موجود
+                    break;
+                }
+                totalCost += c;
+            }
+
+            results[p] = new PathResult(pathStr, totalCost);
+        }
+
+        // نرتب النتائج تنازلياً حسب التكلفة
+        Arrays.sort(results, Comparator.comparingInt(PathResult::getCost));
+        return results;
+    }
+    private int findEdgeCost(Vertex from, Vertex to) {
+        for (int i = 0; i < from.adjCount; i++) {
+            Edge e = from.adjacent[i];
+            if (e.destination == to) {
+                return e.petrolCost + e.hotelCost;
+            }
+        }
+        return Integer.MAX_VALUE;
+    }
+
     public void displayDPTableInGrid() throws IOException {
         showNextStage();
 
@@ -291,9 +336,40 @@ public class Driver {
         dpAfterTableFX(cityNum);
         fillStartAndEnd();
     }
+    public void dothe(int s, int e){
+        printPathsToFX(s,e);
+        System.out.println("Hello");
+    }
+
+    public void printPathsToFX(int startIndex, int endIndex) {
+        PathResult[] results = getPathsWithCosts(startIndex, endIndex);
+        controller.vboxPaths.getChildren().clear();
+
+        for (PathResult pr : results) {
+            HBox hboxPath = new HBox(50);
+            Text txt = new Text(pr.toString());
+            hboxPath.getChildren().add(txt);
+            controller.vboxPaths.getChildren().add(hboxPath);
+        }
+    }
 
     public void fillStartAndEnd() {
+        controller.startComboBox.valueProperty().addListener((obs, oldV, newV) -> {
+            if (newV != null) {
+                handleStartSelection();
 
+                controller.vboxPaths.getChildren().clear();
+            }
+        });
+
+        controller.endComboBox.valueProperty().addListener((obs, oldV, newV) -> {
+            Vertex start = controller.startComboBox.getValue();
+            Vertex end   = newV;
+            if (start != null && end != null) {
+                printPathsToFX(start.indexVertex, end.indexVertex);
+
+            }
+        });
         controller.startComboBox.getItems().addAll(vertexArray);
         controller.startComboBox.setConverter(new StringConverter<>() {
             @Override
@@ -413,10 +489,8 @@ public class Driver {
 
         controller.dpTable.setItems(data);
 
-
         controller.dpTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
-
 
     public void backKeyboard(ActionEvent actionEvent) {
         startPane.setVisible(true);

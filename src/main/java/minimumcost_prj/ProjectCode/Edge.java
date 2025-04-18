@@ -10,4 +10,5 @@ public class Edge {
         this.petrolCost = petrolCost;
         this.hotelCost = hotelCost;
     }
+
 }
