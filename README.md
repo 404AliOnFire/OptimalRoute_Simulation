@@ -3,7 +3,8 @@
 🚀 **OptimalRoute_Simulation**
 *Optimizing Your Journey, Stage by Stage.*
 
----
+---![Screenshot 2025-04-20 000736](https://github.com/user-attachments/assets/f734dcc5-b339-4501-af25-d24e10f60f3d)
+
 
 ## 📌 Overview
 **OptimalRoute_Simulation** is a dynamic programming–based simulation tool designed to compute the most cost-effective route between cities, considering both petrol and hotel costs. The system visualizes possible paths through multiple stages and identifies optimal and alternative solutions with graphical support.
@@ -24,6 +25,8 @@ This project is suitable for:
 - 🧾 Dynamic programming table included in results
 
 ---
+![Screenshot 2025-04-20 000759](https://github.com/user-attachments/assets/64b9b537-a78f-41e3-a50e-97378cdf6a4d)
+
 
 ## 📂 Folder Structure
 ```
@@ -73,6 +76,8 @@ End
    - Graph simulation (in console or image)
 
 ---
+![image](https://github.com/user-attachments/assets/9404e036-5f5c-4c92-8902-b8aba3d4e22b)
+
 
 ## 👨‍💻 Code Files
 - `Main.java`: Entry point. Reads input, builds graph, triggers DP logic.
