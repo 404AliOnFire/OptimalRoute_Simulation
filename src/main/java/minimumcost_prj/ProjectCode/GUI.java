@@ -15,10 +15,8 @@ public class GUI extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/StartUI.fxml"));
-        Vertex[] v = ReadFile.loadGraph("C:\\Users\\ALYAMEN.PS\\IdeaProjects\\MinimumCost_Prj\\src\\main\\java\\minimumcost_prj\\File\\input.txt");
-       // initializeDP(v);
         Scene scene = new Scene(fxmlLoader.load(), 944, 642);
-        stage.setTitle("Hello!");
+        stage.setTitle("Optimal Route");
         stage.setScene(scene);
         stage.show();
         mainStage = stage;

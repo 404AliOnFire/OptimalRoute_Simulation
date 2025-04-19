@@ -173,12 +173,26 @@
                                           </Text>
                                        </children>
                                     </HBox>
-                                    <ScrollPane prefHeight="552.0" prefWidth="235.0">
+                                    <ScrollPane prefHeight="590.0" prefWidth="234.0">
                                        <content>
-                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="586.0" prefWidth="233.0" style="-fx-background-color: white;">
+                                          <AnchorPane fx:id="paneFX" minHeight="0.0" minWidth="0.0" prefHeight="2500.0" prefWidth="230.0" style="-fx-background-color: white;">
                                              <children>
                                                 <VBox fx:id="vboxHead1" prefHeight="586.4873761573799" prefWidth="233.14284966916478" style="-fx-background-color: gray;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <children>
+                                                      <HBox alignment="CENTER" prefHeight="51.0" prefWidth="196.0">
+                                                         <children>
+                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total Ways:">
+                                                               <font>
+                                                                  <Font name="Courier New Bold" size="21.0" />
+                                                               </font>
+                                                            </Text>
+                                                            <Text fx:id="totalWays" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                                               <font>
+                                                                  <Font name="Courier New Bold" size="21.0" />
+                                                               </font>
+                                                            </Text>
+                                                         </children>
+                                                      </HBox>
                                                       <HBox alignment="CENTER" prefHeight="47.0" prefWidth="233.0" spacing="100.0">
                                                          <children>
                                                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="From">
@@ -193,13 +207,13 @@
                                                             </Text>
                                                          </children>
                                                       </HBox>
-                                                      <HBox alignment="CENTER" prefHeight="46.0" prefWidth="231.0" spacing="60.0">
+                                                      <HBox alignment="CENTER" prefHeight="68.0" prefWidth="231.0" spacing="60.0">
                                                          <children>
                                                             <ComboBox fx:id="startComboBox" onAction="#handleStartSelection" prefHeight="35.0" prefWidth="72.0" />
                                                             <ComboBox fx:id="endComboBox" prefHeight="35.0" prefWidth="71.0" />
                                                          </children>
                                                       </HBox>
-                                                      <VBox fx:id="vboxPaths" prefHeight="474.0" prefWidth="211.0" spacing="30.0" />
+                                                      <VBox fx:id="vboxPaths" alignment="TOP_CENTER" prefHeight="468.0" prefWidth="231.0" spacing="30.0" />
                                                    </children>
                                                 </VBox>
                                              </children>

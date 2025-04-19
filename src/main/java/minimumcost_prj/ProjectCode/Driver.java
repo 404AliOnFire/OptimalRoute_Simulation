@@ -45,6 +45,8 @@ public class Driver {
     private AnchorPane keyboardPane;
 
     @FXML
+    private AnchorPane paneFX;
+    @FXML
     private Text endVertexText;
 
     @FXML
@@ -58,6 +60,9 @@ public class Driver {
 
     @FXML
     private Text startVertexText1;
+
+    @FXML
+    private Text totalWays;
 
     @FXML
     private Text numVertexText1;
@@ -89,19 +94,7 @@ public class Driver {
     static String[][] costsArray;
     static PathResultCell[][] pathResultCells;
 
-
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
-
     public static void main(String[] args) {
-        System.out.println("Hello");
-    }
-
-    @FXML
-    public void initialize() {
-
     }
 
     public void fileAction(MouseEvent mouseEvent) {
@@ -151,7 +144,7 @@ public class Driver {
                     dp[i][j] = Integer.MAX_VALUE;
                 }
 
-                pathResultCells[i][j] = new PathResultCell(40);
+                pathResultCells[i][j] = new PathResultCell(100);
             }
         }
         for (int i = 0; i < cityNum; i++) {
@@ -182,21 +175,9 @@ public class Driver {
                     if (dp[i][j] != Integer.MAX_VALUE && dp[j][k] != Integer.MAX_VALUE) {
                         dp[i][k] = Math.min(dp[j][k] + dp[i][j], dp[i][k]); // relationship
 
-                        pathResultCells[i][k].add(vertexArray[k].name, dp[j][k] + dp[i][j], pathResultCells[i][j]);
+                        pathResultCells[i][k].add(vertexArray[k].name, dp[j][k] , pathResultCells[i][j]);
                     }
                 }
-            }
-        }
-        System.out.println("---- Testing pathResultCells ----");
-
-        for (int i = 0; i < cityNum; i++) {
-            for (int j = 0; j < cityNum; j++) {
-                System.out.println("From vertex " + i + " to vertex " + j + ":");
-                PathResultCell cell = pathResultCells[i][j];
-                for (int k = 0; k < cell.counter; k++) {
-                    System.out.println("   Path: " + cell.paths[k].getPath() + " | Cost: " + cell.paths[k].getCost());
-                }
-                System.out.println("--------------------------");
             }
         }
     }
@@ -231,6 +212,7 @@ public class Driver {
     }
 
     public void deleteKeyboard(ActionEvent actionEvent) {
+        textAreaKeyboard.clear();
     }
 
     public static void showNextStage() throws IOException {
@@ -283,16 +265,20 @@ public class Driver {
         fillStartAndEnd();
     }
 
-    public void printPathsToFX(int startIndex, int endIndex) {
+    public int printPathsToFX(int startIndex, int endIndex) {
         PathResult[] results = getPathsWithCosts(startIndex, endIndex);
         controller.vboxPaths.getChildren().clear();
-
+        int counter = 0;
+        controller.paneFX.setPrefHeight(600);
         for (PathResult pr : results) {
             HBox hboxPath = new HBox(50);
             Text txt = new Text(pr.toString());
             hboxPath.getChildren().add(txt);
             controller.vboxPaths.getChildren().add(hboxPath);
+            counter++;
+            controller.paneFX.setPrefHeight(controller.paneFX.getHeight() + 50);
         }
+        return counter;
     }
 
     public void fillStartAndEnd() {
@@ -308,7 +294,10 @@ public class Driver {
             Vertex start = controller.startComboBox.getValue();
             Vertex end = newV;
             if (start != null && end != null) {
-                printPathsToFX(start.indexVertex, end.indexVertex);
+                int tt2 = printPathsToFX(start.indexVertex, end.indexVertex);
+                controller.totalWays.setText(tt2 + " ");
+                controller.endVertexText1.setText(end.name);
+                controller.startVertexText1.setText(start.name);
 
             }
         });
