@@ -199,7 +199,7 @@
                                                             <ComboBox fx:id="endComboBox" prefHeight="35.0" prefWidth="71.0" />
                                                          </children>
                                                       </HBox>
-                                                      <VBox fx:id="vboxPaths" prefHeight="474.0" prefWidth="211.0" />
+                                                      <VBox fx:id="vboxPaths" prefHeight="474.0" prefWidth="211.0" spacing="30.0" />
                                                    </children>
                                                 </VBox>
                                              </children>

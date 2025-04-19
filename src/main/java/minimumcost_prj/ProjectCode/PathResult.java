@@ -3,7 +3,6 @@ package minimumcost_prj.ProjectCode;
 public class PathResult {
     String path;
     int cost;
-    int counter;
     public PathResult(String path, int cost) {
         this.path = path;
         this.cost = cost;
