@@ -29,6 +29,7 @@ public class ReadFile {
     public static int[] stageIndex;
     public static String startVertex;
     public static String endVertex;
+    public static int[] hotelCosts;
 
     public static Vertex[] loadGraph(String filePath) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -45,6 +46,8 @@ public class ReadFile {
             } catch (NumberFormatException e) {
                 throw new IOException("First line must be a valid integer representing number of cities");
             }
+
+            hotelCosts = new int[cityNum];
 
             // Prepare arrays
             Vertex[] vertices = new Vertex[cityNum];
@@ -88,7 +91,6 @@ public class ReadFile {
                 vertexSet.add(name);
                 names[i] = name;
 
-                // Calculate the number of edges for this vertex
                 int edgeCount = 0;
                 if (parts.length > 1) {
                     String adjacents = parts[1].trim();
@@ -99,10 +101,10 @@ public class ReadFile {
                     }
                 }
 
-                // Create vertex with exact edge array size
                 vertices[i] = new Vertex(name, edgeCount);
                 vertices[i].indexVertex = i;
             }
+
             // 5) Validate that start and end exist
             int startIdx = -1, endIdx = -1;
             for (int i = 0; i < cityNum; i++) {
@@ -114,7 +116,6 @@ public class ReadFile {
             }
 
             // 6) Second pass: parse adjacents and validate format
-            int adjCount = 0;
             int stage = 1;
             for (int i = 0; i < cityNum; i++) {
                 String[] parts = rawLines[i].split(",", 2);
@@ -122,22 +123,16 @@ public class ReadFile {
                 Vertex fromV = vertices[i];
                 if (parts.length > 1) {
                     String adjacents = parts[1].trim();
-                    // Split by '], [' to handle multiple adjacents
                     String[] adjacentsArray = adjacents.split("\\],\\s*\\[");
                     for (int j = 0; j < adjacentsArray.length; j++) {
                         String adjacent = adjacentsArray[j].trim();
-                        // Handle missing brackets by checking and cleaning
                         if (j == 0 && adjacent.startsWith("[")) {
                             adjacent = adjacent.substring(1);
-                        } else if (!adjacent.startsWith("[")) {
-                            adjacent = adjacent.trim(); // Handle cases like "End, 4, 7"
                         }
                         if (j == adjacentsArray.length - 1 && adjacent.endsWith("]")) {
                             adjacent = adjacent.substring(0, adjacent.length() - 1);
-                        } else if (!adjacent.endsWith("]")) {
-                            adjacent = adjacent.trim();
                         }
-                        // Split by comma or space to handle missing commas
+
                         String[] ap = adjacent.split("[,\\s]+");
                         if (ap.length == 3) {
                             String toName = ap[0].trim();
@@ -148,6 +143,7 @@ public class ReadFile {
                             } catch (NumberFormatException e) {
                                 throw new IOException("Invalid cost values at " + fromName + " → " + adjacent);
                             }
+
                             int destIdx = -1;
                             for (int k = 0; k < cityNum; k++) {
                                 if (names[k].equals(toName)) {
@@ -158,20 +154,24 @@ public class ReadFile {
                             if (destIdx < 0) {
                                 throw new IOException("Destination vertex not defined: " + toName + " in " + fromName);
                             }
-                            // Check topological order (simplified: destination index > source index)
+
                             if (destIdx <= i && !toName.equals(endName)) {
                                 throw new IOException("Vertex order violation: " + fromName + " → " + toName);
                             }
+
                             fromV.addAdjacent(vertices[destIdx], petrol, hotel);
                             fromV.stage = stage;
                             if (fromV.indexVertex == 0) fromV.stage = 0;
+
+                            hotelCosts[destIdx] = hotel;
                         } else {
                             throw new IOException("Invalid adjacency format at " + fromName + " → " + adjacent);
                         }
                     }
                 }
             }
-            setStageIndex(vertices);
+
+            setStageIndex(vertices); // افتراضًا عندك هاي الميثود جاهزة
             return vertices;
         }
     }

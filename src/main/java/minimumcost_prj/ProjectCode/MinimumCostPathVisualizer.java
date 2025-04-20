@@ -20,6 +20,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import minimumcost_prj.File.ReadFile;
 import minimumcost_prj.ProjectCode.Edge;
 import minimumcost_prj.ProjectCode.PathResultCell;
 import minimumcost_prj.ProjectCode.Vertex;
@@ -29,6 +30,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Arrays;
 import java.util.Comparator;
+
+import static minimumcost_prj.File.ReadFile.hotelCosts;
 
 public class MinimumCostPathVisualizer extends AnchorPane {
     private static Vertex[] vertexArray;
@@ -175,7 +178,7 @@ public class MinimumCostPathVisualizer extends AnchorPane {
         name.setX(x - name.getBoundsInLocal().getWidth() / 2);
         name.setY(y + 5);
 
-        Text hotelCostText = new Text(Integer.toString(v.adjCount > 0 ? v.adjacent[0].hotelCost : 0));
+        Text hotelCostText = new Text(Integer.toString(ReadFile.hotelCosts[v.indexVertex]));
         hotelCostText.setFont(Font.font("Arial", 16));
         hotelCostText.setFill(Color.RED);
         hotelCostText.setX(x + NODE_RADIUS - 5);
@@ -219,16 +222,6 @@ public class MinimumCostPathVisualizer extends AnchorPane {
 
             getChildren().addAll(line, petrolText);
         }
-    }
-
-
-    private Polygon createArrowHead(double x, double y, double ang) {
-        double size = 8, a = Math.PI / 6;
-        double x1 = x - size * Math.cos(ang - a), y1 = y - size * Math.sin(ang - a);
-        double x2 = x - size * Math.cos(ang + a), y2 = y - size * Math.sin(ang + a);
-        Polygon p = new Polygon(x, y, x1, y1, x2, y2);
-        p.setFill(Color.BLACK);
-        return p;
     }
 
     private void addLegend() {

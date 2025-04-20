@@ -272,7 +272,7 @@ public class Driver {
             if (ReadFile.endVertex.equalsIgnoreCase(vertexArray[i].name)) endK = i;
         }
 
-       totalWays.setText(printPathsToFX(startK, endK) + "");
+       controller.totalWays.setText(printPathsToFX(startK, endK) + "");
     }
 
     public int printPathsToFX(int startIndex, int endIndex) {
