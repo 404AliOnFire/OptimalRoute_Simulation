@@ -175,7 +175,7 @@
                                     </HBox>
                                     <ScrollPane prefHeight="590.0" prefWidth="234.0">
                                        <content>
-                                          <AnchorPane fx:id="paneFX" minHeight="0.0" minWidth="0.0" prefHeight="2500.0" prefWidth="230.0" style="-fx-background-color: white;">
+                                          <AnchorPane fx:id="paneFX" minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="230.0" style="-fx-background-color: white;">
                                              <children>
                                                 <VBox fx:id="vboxHead1" prefHeight="586.4873761573799" prefWidth="233.14284966916478" style="-fx-background-color: gray;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <children>
@@ -239,5 +239,10 @@
                </children></AnchorPane>
       </content>
     </Tab>
+      <Tab text="Graph">
+        <content>
+          <AnchorPane fx:id="graphFX" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
+      </Tab>
   </tabs>
 </TabPane>

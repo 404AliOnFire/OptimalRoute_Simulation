@@ -36,6 +36,9 @@ public class Driver {
     private Label welcomeText;
 
     @FXML
+    private AnchorPane graphFX;
+
+    @FXML
     private TextArea textAreaKeyboard;
 
     @FXML
@@ -144,7 +147,7 @@ public class Driver {
                     dp[i][j] = Integer.MAX_VALUE;
                 }
 
-                pathResultCells[i][j] = new PathResultCell(100);
+                pathResultCells[i][j] = new PathResultCell(200);
             }
         }
         for (int i = 0; i < cityNum; i++) {
@@ -175,7 +178,7 @@ public class Driver {
                     if (dp[i][j] != Integer.MAX_VALUE && dp[j][k] != Integer.MAX_VALUE) {
                         dp[i][k] = Math.min(dp[j][k] + dp[i][j], dp[i][k]); // relationship
 
-                        pathResultCells[i][k].add(vertexArray[k].name, dp[j][k] , pathResultCells[i][j]);
+                        pathResultCells[i][k].add(vertexArray[k].name, dp[j][k], pathResultCells[i][j]);
                     }
                 }
             }
@@ -188,7 +191,6 @@ public class Driver {
     }
 
     public void loadKeyboard(ActionEvent actionEvent) {
-        // Get the text from the text area
         String input = textAreaKeyboard.getText();
         if (input == null || input.trim().isEmpty()) {
             showAlert("Input Error", "No graph data was entered. Please paste your graph data.");
@@ -203,7 +205,7 @@ public class Driver {
             vertexArray = ReadFile.loadGraph(tempFile.getAbsolutePath());
             initializeDP(vertexArray);
 
-            System.out.println("✅ Graph successfully loaded from keyboard input (via temp file): " + tempFile.getAbsolutePath());
+            //System.out.println("Graph successfully loaded from keyboard input: " + tempFile.getAbsolutePath());
             displayDPTableInGrid();
             tempFile.deleteOnExit();
         } catch (IOException e) {
@@ -263,6 +265,14 @@ public class Driver {
         dpInitTableFx(cityNum);
         dpAfterTableFX(cityNum);
         fillStartAndEnd();
+        int startK = 0;
+        int endK = 0;
+        for (int i = 0; i < vertexArray.length ; i++) {
+            if (ReadFile.startVertex.equalsIgnoreCase(vertexArray[i].name)) startK = i;
+            if (ReadFile.endVertex.equalsIgnoreCase(vertexArray[i].name)) endK = i;
+        }
+
+       totalWays.setText(printPathsToFX(startK, endK) + "");
     }
 
     public int printPathsToFX(int startIndex, int endIndex) {
@@ -278,6 +288,7 @@ public class Driver {
             counter++;
             controller.paneFX.setPrefHeight(controller.paneFX.getHeight() + 50);
         }
+
         return counter;
     }
 
@@ -314,6 +325,10 @@ public class Driver {
             }
         });
         controller.endComboBox.setConverter(controller.startComboBox.getConverter());
+
+        AnchorPane vizPane = MinimumCostPathVisualizer.createVisualizerPane(vertexArray);
+
+        controller.graphFX.getChildren().setAll(vizPane);
     }
 
     @FXML
